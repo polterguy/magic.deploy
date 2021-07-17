@@ -145,3 +145,9 @@ The above will install _"Uncomplicated FireWall"_ on your server, for then to sh
 port 80, 443 and 22. 22 is needed to allow for SSH into your server. In addition, you would probably benefit
 from making sure your operating system is updated with the latest patches as released by whomever is
 distributing your particular Linux installation.
+
+## Too complicated?
+
+We can [do this for you](https://servergardens.com), including hosting your app, making sure it is
+correctly secured. Of course, this is a service we charge for, but at least that way you get to sleep
+better at night, realising you've got the mastros in regards to this taking care of your server farm.
