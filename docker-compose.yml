@@ -10,7 +10,7 @@ version: "2"
 services:
 
   # This is the internet facing reverse proxy that routes
-  # requests to either the frontend or the backend.
+  # requests to your specific part, backend/frontend/etc.
   # This is the only thing that's actually exposed to the internet.
   nginx-proxy:
     image: jwilder/nginx-proxy
