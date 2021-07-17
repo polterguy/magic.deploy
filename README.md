@@ -12,7 +12,7 @@ git clone https://github.com/polterguy/magic.deploy.git
 command and then rerun the above afterwards.
 
 ```
-apt install git
+sudo apt install git
 ```
 
 When you have successfully cloned this repository, change into the `magic.deploy` folder
@@ -54,7 +54,7 @@ file. When you are done with editing the _"docker-compose.yml"_ file, you can ex
 command in your terminal.
 
 ```
-docker network create nginx-proxy
+sudo docker network create nginx-proxy
 ```
 
 If the above gives you an error, you might need to install docker using `apt install docker`.
@@ -64,7 +64,7 @@ all the docker images within your docker-compose file. When you have created the
 can start your docker containers using the following command.
 
 ```
-docker-compose up -d
+sudo docker-compose up -d
 ```
 
 If the above gives you an error, you might need to install docker-compose using `apt install docker-compose`.
