@@ -1,7 +1,7 @@
 
 # Magic Deploy
 
-Helper repository to deploy Magic to a VPS of your chosing. This project helps you to deploy Magic,
+This is a helper repository to deploy Magic to a VPS of your chosing. This project helps you to deploy Magic,
 using Docker. First clone the entire project into your VPS server using the following command.
 
 ```
