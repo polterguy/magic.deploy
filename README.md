@@ -38,10 +38,18 @@ And then look through the file for the following YAML nodes.
 - LETSENCRYPT_EMAIL=thomas@servergardens.com
 ```
 
-You will find the above keys _repeated twice_ in the file, in total _6 entries_, and the email
-address needs to be a valid email address you own, and the domain needs to be a sub-domain you own
-where you want to run your Magic installation. Hold down the CTRL key and click X, then choose Y
-when nano asks you if you want to save the file after you have edited the file.
+In addition to these YAML nodes.
+
+```
+- VIRTUAL_HOST=magic.servergardens.com
+- LETSENCRYPT_HOST=magic.servergardens.com
+- LETSENCRYPT_EMAIL=thomas@servergardens.com
+```
+
+In total there are _6 entries_ you need to change, and the email address needs to be a valid email
+address you own, and the domain needs to be a sub-domain you own where you want to run your Magic
+installation. Hold down the CTRL key and click X, then choose Y when nano asks you if you want to
+save the file after you have edited the file.
 
 When you are done with editing the _"docker-compose.yml"_ file, you can execute the following command
 in your terminal.
