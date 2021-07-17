@@ -11,6 +11,9 @@ echo ""
 # Installing Docker.
 sudo apt-get docker unzip ufw
 
+# Starting docker-compose
+docker-compose up -d
+
 # Turning on firewall for everything except SSH, HTTP and HTTPS
 sudo ufw allow 80
 sudo ufw allow 443
