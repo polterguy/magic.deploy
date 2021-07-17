@@ -1,0 +1,104 @@
+# Docker file to couple frontend, backend, MySQL database,
+# nGinx reverse proxy, and LetsEncrypt instances into one.
+
+# Replace the servergardens.com parts with your own domain
+# Then create two DNS A records pointing to the IP address of
+# your server. Content of DNS records should be 'api' and 'magic'.
+
+version: "2"
+
+services:
+
+  # This is the internet facing reverse proxy that routes
+  # requests to either the frontend or the backend.
+  # This is the only thing that's actually exposed to the internet.
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - dhparam:/etc/nginx/dhparam
+      - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /usr/share/nginx/html
+    networks:
+      - proxy
+    restart: always
+
+  # This is the container that is responsible for retrieving
+  # and renewing SSL certificates from LetsEncrypt
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-proxy-le
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy
+    restart: always
+
+  # This is our MySQL database
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ThisIsNotAGoodPassword
+    volumes:
+      - database:/var/lib/mysql
+    networks:
+      - proxy
+
+  # Our Magic backend
+  backend:
+    image: servergardens/magic-backend:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+      - letsencrypt
+      - nginx-proxy
+    volumes:
+      - magic_files:/magic/files/modules/magic
+      - crypto_keys:/magic/files/modules/system/crypto/keys
+    environment:
+
+      # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
+      - VIRTUAL_HOST=api.servergardens.com
+      - LETSENCRYPT_HOST=api.servergardens.com
+      - LETSENCRYPT_EMAIL=thomas@servergardens.com
+    networks:
+      - proxy
+
+  # Our Magic frontend (dashboard)
+  frontend:
+    image: servergardens/magic-frontend:latest
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+
+      # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
+      - VIRTUAL_HOST=magic.servergardens.com
+      - LETSENCRYPT_HOST=magic.servergardens.com
+      - LETSENCRYPT_EMAIL=thomas@servergardens.com
+    networks:
+      - proxy
+
+volumes:
+  conf:
+  vhost:
+  dhparam:
+  certs:
+  database:
+  magic_files:
+  crypto_keys:
+
+networks:
+  proxy:
+    external:
+      name: nginx-proxy
