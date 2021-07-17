@@ -48,9 +48,10 @@ In addition to these YAML nodes.
 
 In total there are _6 entries_ you need to change, and the email address needs to be a valid email
 address you own, and the domain needs to be a sub-domain you own where you want to run your Magic
-installation. Hold down the CTRL key and click X, then choose Y when nano asks you if you want to
-save the file after you have edited the file. When you are done with editing the _"docker-compose.yml"_
-file, you can execute the following command in your terminal.
+installation. When you are done editing the docker-compose.yml file, hold down the CTRL key and
+click X, then choose Y when nano asks you if you want to save the file after you have edited the
+file. When you are done with editing the _"docker-compose.yml"_ file, you can execute the following
+command in your terminal.
 
 ```
 docker network create nginx-proxy
