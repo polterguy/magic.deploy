@@ -9,7 +9,7 @@ git clone https://github.com/polterguy/magic.deploy.git
 ```
 
 **Notice** - If the above gives you an error, you might need to install git using the following
-command and then rerun the above afterwards.
+command and then run the above command again afterwards.
 
 ```
 sudo apt install git
@@ -49,7 +49,7 @@ In addition to these YAML nodes.
 In total there are _6 entries_ you need to change, and the email address needs to be a valid email
 address you own, and the domain needs to be a sub-domain you own where you want to run your Magic
 installation. When you are done editing the docker-compose.yml file, hold down the CTRL key and
-click X, then choose Y when nano asks you if you want to save the file after you have edited the
+click X, then choose Y when Nano asks you if you want to save the file after you have edited the
 file. When you are done with editing the _"docker-compose.yml"_ file, you can execute the following
 command in your terminal.
 
@@ -86,4 +86,44 @@ a root password, and just follow the wizard to the end.
 this file will contain your Magic settings. _Do not delete this file_ since it's crucial for Magic to
 work. However, be careful with the file, since it contains your database connection strings, JWT secret,
 and other _highly sensitive information_. _Do not send this file on email or share it with anybody_ unless
-you absolutely trust the other party!
+you absolutely trust the other party.
+
+## Installing generated Angular frontend
+
+Once you have generated an Angular frontend, you can just as easily install this on the same VPS. This
+is possible since the generated frontend also contains a _"docker-compose.yml"_ file. The simplest way
+to do this is to import your Angular frontend into for instance [GitHub](https://github.com) as for
+instance a private repository, and then clone your repository locally on your VSP server. To retrieve
+the generated frontend on your VPS, assuming your username on GitHub is _"foo"_ and the project name is
+_"bar"_, you could run the following command.
+
+```
+git clone https://github.com/foo/bar.git
+```
+
+Then you need to change into your _"bar"_ directory with the following command.
+
+```
+cd bar
+```
+
+Notice, at this point you will have to _manually edit the "docker-compose.yml" file_ the same
+way you did for the main Magic docker-compose file. In this file you will find the following
+section.
+
+```
+- VIRTUAL_HOST=sakila.servergardens.com
+- LETSENCRYPT_HOST=sakila.servergardens.com
+- LETSENCRYPT_EMAIL=thomas@servergardens.com
+```
+
+You might want to edit the container's name too, which you can find at the top of this file.
+The above values needs to be exchange with your own domain, and your own email address. Once you've edited
+this file using for instance `nano`, you can start your docker container using the following command.
+
+```
+docker-compose up -d
+```
+
+At this point you should have your frontend up running on the sub-domain you chose as you edited the file,
+assuming you have added a DNS A record pointing to the IP address of your server.
