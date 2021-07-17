@@ -127,3 +127,21 @@ docker-compose up -d
 
 At this point you should have your frontend up running on the sub-domain you chose as you edited the file,
 assuming you have added a DNS A record pointing to the IP address of your server.
+
+## Securing your VPS
+
+You might want to install a firewall on your Linux server to further secure your installation. This can be done
+by executing the following commands in order of appearance.
+
+```
+sudo apt install ufw
+sudo ufw allow 80
+sudo ufw allow 443
+sudo ufw allow 22
+sudo ufw enable
+```
+
+The above will install _"Uncomplicated FireWall"_ on your server, for then to shut off all ports except
+port 80, 443 and 22. 22 is needed to allow for SSH into your server. In addition, you would probably benefit
+from making sure your operating system is updated with the latest patches as released by whomever is
+distributing your particular Linux installation.
