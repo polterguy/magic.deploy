@@ -11,3 +11,10 @@ docker-compose up -d
 ```
 
 The above will start 5 docker containers.
+
+**Notice** - You will also have to manually create the proxy network Docker depends upon
+before starting your containers. You can do this with the following command.
+
+```
+docker network create nginx-proxy
+```
