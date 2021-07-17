@@ -63,8 +63,7 @@ services:
       - letsencrypt
       - nginx-proxy
     volumes:
-      - magic_files:/magic/files/modules/magic
-      - crypto_keys:/magic/files/modules/system/crypto/keys
+      - files:/magic/files
       - appsettings.json:/magic/appsettings.json
     environment:
 
@@ -96,8 +95,8 @@ volumes:
   dhparam:
   certs:
   database:
-  magic_files:
-  crypto_keys:
+  files:
+  appsettings.json:
 
 networks:
   proxy:
