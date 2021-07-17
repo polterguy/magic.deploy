@@ -9,7 +9,7 @@ echo "==========================================================================
 echo ""
 
 # Installing Docker.
-sudo apt-get docker unzip ufw
+sudo apt-get docker ufw
 
 # Starting docker-compose
 docker-compose up -d
