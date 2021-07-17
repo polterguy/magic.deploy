@@ -64,7 +64,7 @@ services:
       - nginx-proxy
     volumes:
       - files:/magic/files
-      - appsettings.json:/magic/appsettings.json
+      - appsettings:/magic/appsettings.json
     environment:
 
       # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
@@ -96,7 +96,7 @@ volumes:
   certs:
   database:
   files:
-  appsettings.json:
+  appsettings:
 
 networks:
   proxy:
