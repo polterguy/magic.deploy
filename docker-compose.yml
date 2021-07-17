@@ -65,6 +65,7 @@ services:
     volumes:
       - magic_files:/magic/files/modules/magic
       - crypto_keys:/magic/files/modules/system/crypto/keys
+      - appsettings.json:/magic/appsettings.json
     environment:
 
       # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
