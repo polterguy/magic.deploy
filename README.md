@@ -84,4 +84,6 @@ a root password, and just follow the wizard to the end.
 
 **Notice** - The _"appsettings.json"_ file will be mounted as an external file reference by Docker, and
 this file will contain your Magic settings. _Do not delete this file_ since it's crucial for Magic to
-work.
+work. However, be careful with the file, since it contains your database connection strings, JWT secret,
+and other _highly sensitive information_. _Do not send this file on email or share it with anybody_ unless
+you absolutely trust the other party!
