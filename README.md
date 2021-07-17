@@ -49,10 +49,8 @@ In addition to these YAML nodes.
 In total there are _6 entries_ you need to change, and the email address needs to be a valid email
 address you own, and the domain needs to be a sub-domain you own where you want to run your Magic
 installation. Hold down the CTRL key and click X, then choose Y when nano asks you if you want to
-save the file after you have edited the file.
-
-When you are done with editing the _"docker-compose.yml"_ file, you can execute the following command
-in your terminal.
+save the file after you have edited the file. When you are done with editing the _"docker-compose.yml"_
+file, you can execute the following command in your terminal.
 
 ```
 docker network create nginx-proxy
@@ -68,11 +66,11 @@ docker-compose up -d
 
 The above will start 5 docker containers.
 
-* nginx-proxy - The nGinx proxy that internally routes requests to either your backend or your frontend
-* letsencrypt - The container responsible for retrieving and renewing LetsEncrypt SSL certificates for you
-* db - Your MySQL database, used to create the _"magic"_ database, which Magic internally depends upon
-* backend - The main Magic backend container
-* frontend - The main Magic dashboard frontend container
+* `nginx-proxy` - The nGinx proxy that internally routes requests to either your backend or your frontend
+* `letsencrypt` - The container responsible for retrieving and renewing LetsEncrypt SSL certificates for you
+* `db` - Your MySQL database, used to create the _"magic"_ database, which Magic internally depends upon
+* `backend` - The main Magic backend container
+* `frontend` - The main Magic dashboard frontend container
 
 You can now visit your frontend domain, and setup Magic, assuming you've pointed your DNS A records to
 the IP address of your virtual server. Notice, to configure Magic login with _"root/root"_ and do _not_
