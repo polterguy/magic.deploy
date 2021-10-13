@@ -129,8 +129,8 @@ change the database connection string, but choose _mysql_ as your database type,
 a root password, and just follow the wizard to the end. This process is similar to the process you followed
 as you configured Magic locally on your development machine.
 
-**Notice** - As you click the login button, you have to provide Magic with your backend API url.
-This is achieved by simply pasting in your backend API url into the top textbox and click the tab key
+**Notice** - As you click the login button, you have to provide Magic with your backend API URL.
+This is achieved by simply pasting in your backend API URL into the top textbox and click the tab key
 on your keyboard, at which point Magic will allow you to provide your username and password to login
 to your Magic dashboard. Your initial username and password combination before you have configured
 Magic is _"root/root"_. You will have to _change_ this password after you have logged in to start
@@ -177,7 +177,7 @@ to do this is to upload your generated ZIP file to your VPS container using for 
 development machine. Yet again, use your VPS' IP address here.
 
 ```
-scp foo.zip root@123.123.123
+scp foo.zip root@123.123.123:~
 ```
 
 Then login to your VPS through your terminal, unzip the file and change into the unzipped folder with
@@ -244,4 +244,3 @@ to [getting Magic up running in an Azure DevOps environment](https://dzone.com/a
 We can [do this for you](https://servergardens.com), including hosting your app, making sure it is
 correctly secured. Of course, this is a service we charge for, but at least that way you get to sleep
 better at night, realising we are helping you out automagically.
-
