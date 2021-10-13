@@ -174,7 +174,7 @@ for your domain if you don't get the ZIP file and click _"Generate"_ once more.
 Once you have generated an Angular frontend, you can just as easily install this on the same VPS. This
 is possible since the generated frontend also contains a _"docker-compose.yml"_ file. The simplest way
 to do this is to upload your generated ZIP file to your VPS container using for instance from your local
-development machine.
+development machine. Yet again, use your VPS' IP address here.
 
 ```
 scp foo.zip root@123.123.123
@@ -185,7 +185,7 @@ something such as the following.
 
 ```
 unzip foo.zip
-cs foo
+cd foo
 ```
 
 If you get an error when executing the above unzip command, you can install unzip on your VPS using the
@@ -211,6 +211,9 @@ you are using to generate your frontend.
 At this point you should have your frontend up running on the sub-domain you chose as you generated
 your frontend. Now simply visit this URL in your browser, and after some 5 minutes of negotiating a
 new SSL certificate from LetsEncrypt your Angular app should work.
+
+**Notice** - To login to your generated Angular frontend, use the same username and password
+combination that you used when configuring Magic itself.
 
 ## Securing your VPS
 
