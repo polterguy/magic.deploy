@@ -80,7 +80,7 @@ services:
       # This implies the Docker container is NOT isolated, since all Docker commands are passed into the HOST OS.
       # If this is a problem for your particular needs, please remove the next line of code!
       # Notice - This ONLY works of Docker is installed in the magic-backend image, which is the case for v9.9.7 of the backend
-      - /var/run/docker.sock:/var/run/docker.sock
+      # - /var/run/docker.sock:/var/run/docker.sock
 
     networks:
       - proxy
