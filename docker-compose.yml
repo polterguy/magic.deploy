@@ -63,9 +63,9 @@ services:
       - letsencrypt
       - nginx-proxy
     volumes:
-      - modules:/magic/files/modules
-      - magic_etc:/magic/files/etc
-      - ./appsettings.json:/magic/appsettings.json
+      - etc_magic_folder:/magic/files/etc
+      - modules_magic_folder:/magic/files/modules
+      - config_magic_folder:/magic/config
     environment:
 
       # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
@@ -106,9 +106,9 @@ volumes:
   dhparam:
   certs:
   database:
-  modules:
-  magic_etc:
-  appsettings.json:
+  etc_magic_folder:
+  modules_magic_folder:
+  config_magic_folder:
 
 networks:
   proxy:
