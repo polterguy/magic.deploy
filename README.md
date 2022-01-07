@@ -10,10 +10,10 @@ these would resemble the following.
 * __api.yourdomain.com__
 * __magic.yourdomain.com__
 
-We suggest you don't buy the cheapest VPS droplet from DigitalOcean, but rather choose
-the basic droplet that costs you $24 per month. This is because the cheapest droplet is simply
-not powerful enough to run two web apps, MySQL, and docker. You might be able to manage with a $12
-droplet.
+We suggest you don't buy the cheapest VPS droplet from DigitalOcean, but chose at least the one
+that will cost you $12 per month. Their cheapest droplet simply doesn't have enough memory to
+run Magic optimally. 2MB of memory should be enought to host both Magic, MySQL, and the frontend
+dashboard.
 
 ## Installing Magic
 
@@ -25,10 +25,10 @@ ssh root@123.123.123.123
 ```
 
 The IP address above needs to be the IP address of your VPS. After you've executed the above, you'll be
-asked for your root password on your VPS instance. Notice, if you are using Windows you can use Putty, and/or
+asked for your root password on your VPS instance. Notice, if you are using Windows you can use
+[Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/), and/or
 if you're using DigitalOcean you can use their web based terminal interface as an alternative. When you have
-successfully logged into your VPS instance you can clone the entire magic deploy project into your VPS server
-using the following command.
+logged into your VPS you can clone magic.deploy into your VPS server using the following command.
 
 ```
 git clone https://github.com/polterguy/magic.deploy.git
@@ -48,8 +48,8 @@ using the following command.
 cd magic.deploy
 ```
 
-The `docker-compose.yml` file needs to be manually edited to provide it with your
-email address, frontend domain, and backend domain before you execute the docker-compose command.
+The `docker-compose.yml` file needs to be manually edited to provide your
+email address, frontend domain, and backend domain, before you execute the docker-compose command.
 You can do this with the following command.
 
 ```
@@ -74,9 +74,8 @@ In total there are _6 entries_ you need to change, and the email address needs t
 address you own. The domain needs to be a sub-domain you own where you want to run your Magic
 installation. When you are done editing the docker-compose.yml file, hold down the CTRL key and
 click X, then type _"Y"_ when Nano asks you if you want to save the file after you have edited the
-file, and save it with its existing filename. When you are done editing,
-then execute the following command in your terminal. This installs Docker for you, in addition
-to Docker Compose.
+file, and save it with its existing filename. When you are done execute the following command in
+your terminal. This installs Docker for you, in addition to Docker Compose.
 
 ```
 apt install docker docker-compose
@@ -89,7 +88,7 @@ This is necessary to make sure your containers have a virtual network to communi
 docker network create nginx-proxy
 ```
 
-This command will create your docker proxy network Magic will need to be able to connect
+This command will create a docker proxy network Magic needs to be able to connect
 all the docker images within your docker-compose file with each other. When you have created the
 above network, you can start your docker containers using the following command.
 
@@ -103,7 +102,7 @@ access your frontend, and/or your backend, and you get an error, and/or an SSL e
 some few minutes and try to refresh your page. Only when you no longer get an error, you can
 proceed to configure Magic from its dashboard. To start this process however, you will need
 to access both your frontend and your backend to initiate the process of retrieving an SSL
-certificate for both your web apps. If you domain is _"yourdomain.com"_ and you chose the DNS
+certificate for both your web apps. If your domain is _"yourdomain.com"_ and you chose the DNS
 A records illustrated in the beginning of this article, you can initiate this process by
 opening the following URLs in your browser.
 
@@ -111,7 +110,11 @@ opening the following URLs in your browser.
 * https://magic.yourdomain.com
 
 Only when both of the above URLs returns success, and/or returns your Magic dashboard frontend, proceed
-with the rest of this guide. The above `docker-compose up -d` command will start 5 docker containers.
+with the rest of this guide.
+
+## Internals
+
+The above `docker-compose up -d` command will start 5 docker containers.
 
 * `nginx-proxy` - The nGinx proxy that internally routes requests to either your backend or your frontend
 * `letsencrypt` - The container responsible for retrieving and renewing LetsEncrypt SSL certificates for you
@@ -119,23 +122,25 @@ with the rest of this guide. The above `docker-compose up -d` command will start
 * `backend` - The main Magic backend container
 * `frontend` - The main Magic dashboard frontend container
 
-You can now visit your frontend domain and setup Magic. To configure Magic login with _"root/root"_ and do _not_
-change the database connection string, but choose _mysql_ as your database type, and provide Magic with
-a root password, and follow the wizard to the end. This process is similar to the process you followed
-as you configured Magic locally on your development machine.
+In addition to the above containers, docker will also create several volumes for you. These volumes
+are necessary to persist changes to the file system for your containers, such that if your containers
+are stopped for some reasons, and/or you update Magic later, you will keep your changes.
 
-As you click the login button, you have to provide Magic with your backend API URL.
-This is achieved by simply pasting in your backend API URL into the top textbox and click the tab key
-on your keyboard, at which point Magic will allow you to provide your username and password to login
-to your Magic dashboard. Your initial username and password combination before you have configured
-Magic is _"root/root"_. You will have to _change_ this password after you have logged in to start
-the configuration process of Magic.
+## Configuring Magic
 
-The _"appsettings.json"_ file will be mounted as an external file reference by docker, and
-this file will contain your Magic settings. _Do not delete this file_ since it's crucial for Magic to
-work. However, be careful with the file, since it contains your database connection strings, JWT secret,
-and other _highly sensitive information_. _Do not send this file on email or share it with anybody_ unless
-you absolutely trust the other party.
+You can now visit your frontend domain and setup Magic. As you click the login button, you have to
+provide Magic with your backend API URL. This is achieved by simply pasting in your backend API URL
+into the top textbox and click the tab key on your keyboard. If your domain was _"yourdomain.com"_, and
+you created your DNS records as illustrated above, your API backend URL would be the following.
+
+```
+https://api.yourdomain.com
+```
+
+To configure Magic login with _"root/root"_ and do _not_ change the database connection string, but
+choose _mysql_ as your database type, and provide Magic with a root password, and follow the wizard
+to the end. This process is similar to the process you follow as you configure Magic locally on your
+development machine.
 
 ## Installing a generated Angular frontend
 
@@ -148,11 +153,17 @@ script you've got instead.
 After you've done the above you can go back to your dashboard in Magic and choose the _"CRUD"_
 menu item. Then click the little spiral arrow to refresh your server side cache, and once the page
 reloads choose the database you just created and click _"Crudify all tables"_. Then choose the _"Frontend"_
-tab at the top of your page, give your app a name, choose the _"angular"_ template, and click _"Generate"_.
-After a couple of seconds you should be given a ZIP file as a download. Make sure you disable popup blockers
-for your domain if you don't get the ZIP file and click _"Generate"_ once more.
+tab at the top of your page, give your app a name, choose the _"angular"_ template, choose a _"Deployment domain"_
+being the URL where you want to deploy your frontend, and click _"Generate"_.
+After a couple of seconds you should be given a ZIP file as a download. If you don't get a ZIP file,
+make sure you disable popup blockers in your browser and click _"Generate"_ once more.
 
-Once you have generated an Angular frontend, you can just as easily install this on the same VPS. This
+If you want to crudify your own database here, you can easily do so by adding a connection string
+to an existing database through the _"Config"_ menu item, and then choose your own connection string's
+name as you crudify your backend. If you do this you can choose any Microsoft SQL Server, MySQL, or
+PostgreSQL database connection string.
+
+Once you have generated an Angular frontend, you can easily install this on the same VPS. This
 is possible since the generated frontend also contains a _"docker-compose.yml"_ file. The easiest way
 to do this is to upload your generated ZIP file to your VPS container using for instance the following
 from your local development machine. Yet again, use your VPS' IP address here.
@@ -176,7 +187,7 @@ following command and rerun the above commands afterwards.
 apt install unzip
 ```
 
-When you have unzipped your Angular frontend you can start your Docker container using the following
+When you have unzipped your Angular frontend you can start your docker container using the following
 command in your VPS from within your unzipped Angular frontend folder.
 
 ```
@@ -184,16 +195,13 @@ docker-compose up -d
 ```
 
 The above assumes you have configured a DNS A record pointing to your virtual machine with
-the URL of where you want your frontend to be found, and that you used this URL as you generated
+the URL of where you want to deploy your frontend, and that you used this URL as you generated
 your frontend - In addition to that you _generated your app on your Magic VPS instance_. The last part
 is important since by default a generated Angular frontend will use the same API URL as the URL
 you are using to generate your frontend. At this point you should have your frontend up running on
 the sub-domain you chose as you generated your frontend. Now simply visit this URL in your browser,
 and after some 5 minutes of negotiating a new SSL certificate from LetsEncrypt your Angular app
-should work.
-
-To login to your generated Angular frontend, use the same username and password
-combination that you used when configuring Magic itself.
+should work. Use your default Magic _"root"_ credentials to login to your generated Angular frontend.
 
 ## Securing your VPS
 
