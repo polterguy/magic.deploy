@@ -73,6 +73,7 @@ services:
 
     networks:
       - proxy
+    network_mode: bridge
     restart: unless-stopped
 
   # Our Magic frontend (dashboard)
@@ -86,8 +87,7 @@ services:
       - VIRTUAL_HOST=magic.aista.com
       - LETSENCRYPT_HOST=magic.aista.com
       - LETSENCRYPT_EMAIL=th@aista.com
-    networks:
-      - proxy
+    network_mode: bridge
     restart: unless-stopped
 
 volumes:
