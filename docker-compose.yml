@@ -13,51 +13,49 @@ services:
   # requests to your specific part, backend/frontend/etc.
   # This is the only thing that's actually exposed to the internet.
   nginx-proxy:
-    image: jwilder/nginx-proxy
+    image: nginxproxy/nginx-proxy:alpine
     container_name: nginx-proxy
+    environment:
+      - DEFAULT_EMAIL=th@aista.com
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - conf:/etc/nginx/conf.d
       - vhost:/etc/nginx/vhost.d
-      - dhparam:/etc/nginx/dhparam
       - certs:/etc/nginx/certs:ro
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /usr/share/nginx/html
     networks:
       - proxy
-    restart: always
+    restart: unless-stopped
 
   # This is the container that is responsible for retrieving
   # and renewing SSL certificates from LetsEncrypt
-  letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: nginx-proxy-le
+  acme-companion:
+    image: nginxproxy/acme-companion
+    container_name: nginx-proxy-acme
     volumes_from:
       - nginx-proxy
     volumes:
       - certs:/etc/nginx/certs:rw
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - acme:/etc/acme.sh
     networks:
       - proxy
-    restart: always
+    restart: unless-stopped
 
-  # This is our MySQL database
+  # Our MySQL database
   db:
     image: mysql
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ThisIsNotAGoodPassword
     volumes:
       - database:/var/lib/mysql
     networks:
       - proxy
+    restart: unless-stopped
 
   # Our Magic backend
   backend:
     image: servergardens/magic-backend:latest
-    restart: unless-stopped
     depends_on:
       - db
       - letsencrypt
@@ -69,36 +67,28 @@ services:
     environment:
 
       # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
-      - VIRTUAL_HOST=api.servergardens.com
-      - LETSENCRYPT_HOST=api.servergardens.com
-      - LETSENCRYPT_EMAIL=thomas@servergardens.com
-
-      # WARNING!
-      # We need to map the Docker socket to the HOST operating system's Docker socket to make sure
-      # Docker commands are passed into the host operating system, and not kept within the Docker container itself.
-      # This is what allows us to start Docker containers in the host OS from within the Docker container itself.
-      # This implies the Docker container is NOT isolated, since all Docker commands are passed into the HOST OS.
-      # If this is a problem for your particular needs, please remove the next line of code!
-      # Notice - This ONLY works of Docker is installed in the magic-backend image, which is the case for v9.9.7 of the backend
-      # - /var/run/docker.sock:/var/run/docker.sock
+      - VIRTUAL_HOST=magic-api.aista.com
+      - LETSENCRYPT_HOST=magic-api.aista.com
+      - LETSENCRYPT_EMAIL=th@aista.com
 
     networks:
       - proxy
+    restart: unless-stopped
 
   # Our Magic frontend (dashboard)
   frontend:
     image: servergardens/magic-frontend:latest
-    restart: unless-stopped
     depends_on:
       - backend
     environment:
 
       # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
-      - VIRTUAL_HOST=magic.servergardens.com
-      - LETSENCRYPT_HOST=magic.servergardens.com
-      - LETSENCRYPT_EMAIL=thomas@servergardens.com
+      - VIRTUAL_HOST=magic.aista.com
+      - LETSENCRYPT_HOST=magic.aista.com
+      - LETSENCRYPT_EMAIL=th@aista.com
     networks:
       - proxy
+    restart: unless-stopped
 
 volumes:
   conf:
