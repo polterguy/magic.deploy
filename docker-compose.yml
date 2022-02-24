@@ -39,6 +39,7 @@ services:
     volumes:
       - certs:/etc/nginx/certs:rw
       - acme:/etc/acme.sh
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - proxy
     restart: unless-stopped
