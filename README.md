@@ -116,17 +116,16 @@ important volumes that Magic itself relies upon are as follows.
 * __modules_magic_folder__ - Where Magic stores its _"modules"_ files
 * __config_magic_folder__ - Where Magic stores its _"appsettings.json"_ file
 
-The rest of the volumes are documented in either of the following two projects that Magic's internal
-deployment depends upon.
+The rest of the volumes are documented in either of the following two container projects that Magic's
+internal deployment depends upon.
 
 * [nGinx Proxy](https://github.com/nginx-proxy/nginx-proxy)
 * [Acme companion](https://github.com/nginx-proxy/acme-companion)
 
-The first is to create the nGinx proxy that _"routes"_ requests to the correct container according
-to the host name specified in your HTTP requests. The second is to install a LetsEncrypt SSL
-certificate key pair for both your backend and frontend, ensuring you've got encrypted HTTPS
+The first project above creates the nGinx proxy that _"routes"_ requests to the correct container
+according to the host name specified in your HTTP requests. The second is to install a LetsEncrypt
+SSL certificate key pair for both your backend and frontend, ensuring you've got encrypted HTTPS
 communication to both your backend and your frontend.
-
 
 ## Configuring Magic
 
@@ -136,19 +135,19 @@ into the top textbox and click the tab key on your keyboard. If your domain was 
 you created your DNS records as illustrated above, your API backend URL would be the following.
 
 ```
-https://api.yourdomain.com
+https://magic-api.yourdomain.com
 ```
 
-To configure Magic login with _"root/root"_ and do _not_ change the database connection string, but
-choose _mysql_ as your database type, and provide Magic with a root password, and follow the wizard
-to the end. This process is similar to the process you follow as you configure Magic locally on your
-development machine.
+To configure Magic login with _"root/root"_ and choose _mysql_ as your database type. Do _not_ change
+any parts of the connection string unless you know what you're doing. Then provide Magic with a root
+password, and follow the wizard to the end. This process is similar to the process you follow as you
+configure Magic locally on your development machine.
 
 ## Installing a generated Angular frontend
 
 Once you have installed Magic you probably want to check out its capabilities in regards to Low-Code
 and No-Code, which is easily achieved by going to the SQL menu item in your dashboard, click the Load
-button, choose _"Sakila"_, and then click execute. This creates a database for you called Sakila.
+button, choose _"sakila"_, and then click execute. This creates a database for you called sakila.
 For the record, you can of course choose any existing database you have, or an alternative create
 database MySQL script you've got.
 
