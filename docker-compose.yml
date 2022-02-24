@@ -13,7 +13,7 @@ services:
   # requests to your specific part, backend/frontend/etc.
   # This is the only thing that's actually exposed to the internet.
   nginx-proxy:
-    image: nginxproxy/nginx-proxy:alpine
+    image: nginxproxy/nginx-proxy
     container_name: nginx-proxy
     environment:
       - DEFAULT_EMAIL=th@aista.com
@@ -25,8 +25,7 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - certs:/etc/nginx/certs:ro
-    networks:
-      - proxy
+    network_mode: bridge
     restart: unless-stopped
 
   # This is the container that is responsible for retrieving
@@ -40,8 +39,7 @@ services:
       - certs:/etc/nginx/certs:rw
       - acme:/etc/acme.sh
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - proxy
+    network_mode: bridge
     restart: unless-stopped
 
   # Our MySQL database
