@@ -93,8 +93,8 @@ services:
 volumes:
   conf:
   vhost:
-  dhparam:
   certs:
+  acme:
   database:
   etc_magic_folder:
   modules_magic_folder:
