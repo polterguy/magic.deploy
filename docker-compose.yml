@@ -71,8 +71,6 @@ services:
       - LETSENCRYPT_HOST=magic-api.aista.com
       - LETSENCRYPT_EMAIL=th@aista.com
 
-    networks:
-      - proxy
     network_mode: bridge
     restart: unless-stopped
 
