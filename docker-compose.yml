@@ -50,8 +50,6 @@ services:
       MYSQL_ROOT_PASSWORD: ThisIsNotAGoodPassword
     volumes:
       - database:/var/lib/mysql
-    networks:
-      - proxy
     restart: unless-stopped
 
   # Our Magic backend
@@ -72,7 +70,8 @@ services:
       - LETSENCRYPT_HOST=magic-api.aista.com
       - LETSENCRYPT_EMAIL=th@aista.com
 
-    network_mode: bridge
+    networks:
+      - proxy
     restart: unless-stopped
 
   # Our Magic frontend (dashboard)
