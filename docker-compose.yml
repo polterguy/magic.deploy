@@ -26,7 +26,8 @@ services:
       - html:/usr/share/nginx/html
       - certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    network_mode: bridge
+    networks:
+      - proxy
     restart: unless-stopped
 
   # This is the container that is responsible for retrieving
@@ -40,7 +41,8 @@ services:
       - certs:/etc/nginx/certs:rw
       - acme:/etc/acme.sh
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    network_mode: bridge
+    networks:
+      - proxy
     restart: unless-stopped
 
   # Our MySQL database
