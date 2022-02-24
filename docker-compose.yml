@@ -14,7 +14,7 @@ services:
   # This is the only thing that's actually exposed to the internet.
   nginx-proxy:
     image: nginxproxy/nginx-proxy:alpine
-    container_name: nginx-proxy
+    container_name: proxy
     ports:
       - "80:80"
       - "443:443"
@@ -32,7 +32,7 @@ services:
   # and renewing SSL certificates from LetsEncrypt
   acme-companion:
     image: nginxproxy/acme-companion
-    container_name: nginx-proxy-acme
+    container_name: acme
     volumes_from:
       - nginx-proxy
     volumes:
