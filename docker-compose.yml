@@ -1,9 +1,9 @@
 # Docker file to couple frontend, backend, MySQL database,
-# nGinx reverse proxy, and LetsEncrypt instances into one.
+# nGinx reverse proxy, and ACME LetsEncrypt instances into one.
 
-# Replace the servergardens.com parts with your own domain
+# Replace the aista.com parts with your own domain
 # Then create two DNS A records pointing to the IP address of
-# your server. Content of DNS records should be 'api' and 'magic'.
+# your server. Content of DNS records should be 'magic-api' and 'magic'.
 
 version: "2"
 
@@ -13,10 +13,8 @@ services:
   # requests to your specific part, backend/frontend/etc.
   # This is the only thing that's actually exposed to the internet.
   nginx-proxy:
-    image: nginxproxy/nginx-proxy
+    image: nginxproxy/nginx-proxy:alpine
     container_name: nginx-proxy
-    environment:
-      - DEFAULT_EMAIL=th@aista.com
     ports:
       - "80:80"
       - "443:443"
