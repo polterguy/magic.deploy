@@ -66,12 +66,10 @@ services:
       - modules_magic_folder:/magic/files/modules
       - config_magic_folder:/magic/config
     environment:
-
       # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
       - VIRTUAL_HOST=magic-api.aista.com
       - LETSENCRYPT_HOST=magic-api.aista.com
       - LETSENCRYPT_EMAIL=th@aista.com
-
     networks:
       - proxy
     restart: unless-stopped
@@ -87,7 +85,8 @@ services:
       - VIRTUAL_HOST=magic.aista.com
       - LETSENCRYPT_HOST=magic.aista.com
       - LETSENCRYPT_EMAIL=th@aista.com
-    network_mode: bridge
+    networks:
+      - proxy
     restart: unless-stopped
 
 volumes:
