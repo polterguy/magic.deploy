@@ -24,6 +24,7 @@ services:
       - html:/usr/share/nginx/html
       - certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./uploadsize.conf:/etc/nginx/conf.d/uploadsize.conf
     networks:
       - proxy
     restart: unless-stopped
