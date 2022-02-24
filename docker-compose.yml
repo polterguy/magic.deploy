@@ -58,7 +58,7 @@ services:
     image: servergardens/magic-backend:latest
     depends_on:
       - db
-      - letsencrypt
+      - acme-companion
       - nginx-proxy
     volumes:
       - etc_magic_folder:/magic/files/etc
