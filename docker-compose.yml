@@ -23,6 +23,7 @@ services:
     volumes:
       - conf:/etc/nginx/conf.d
       - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
       - certs:/etc/nginx/certs:ro
     networks:
       - proxy
@@ -93,6 +94,7 @@ services:
 volumes:
   conf:
   vhost:
+  html:
   certs:
   acme:
   database:
