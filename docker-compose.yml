@@ -46,6 +46,7 @@ services:
   # Our MySQL database
   db:
     image: mysql
+    container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: ThisIsNotAGoodPassword
     volumes:
@@ -57,6 +58,7 @@ services:
   # Our Magic backend
   backend:
     image: servergardens/magic-backend:latest
+    container_name: backend
     depends_on:
       - db
       - acme-companion
@@ -77,6 +79,7 @@ services:
   # Our Magic frontend (dashboard)
   frontend:
     image: servergardens/magic-frontend:latest
+    container_name: frontend
     depends_on:
       - backend
     environment:
