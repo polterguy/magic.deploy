@@ -65,9 +65,7 @@ services:
       - acme-companion
       - nginx-proxy
     volumes:
-      - etc_magic_folder:/magic/files/etc
-      - modules_magic_folder:/magic/files/modules
-      - config_magic_folder:/magic/config
+      - magic_files:/magic/files
     environment:
       # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
       - VIRTUAL_HOST=magic-api.aista.com
@@ -100,9 +98,7 @@ volumes:
   certs:
   acme:
   database:
-  etc_magic_folder:
-  modules_magic_folder:
-  config_magic_folder:
+  magic_files:
 
 networks:
   proxy:
