@@ -58,7 +58,7 @@ services:
 
   # Our Magic backend
   backend:
-    image: servergardens/magic-backend:latest
+    image: aistamagic/magic-backend:latest
     container_name: backend
     depends_on:
       - db
@@ -77,7 +77,7 @@ services:
 
   # Our Magic frontend (dashboard)
   frontend:
-    image: servergardens/magic-frontend:latest
+    image: aistamagic/magic-frontend:latest
     container_name: frontend
     depends_on:
       - backend
