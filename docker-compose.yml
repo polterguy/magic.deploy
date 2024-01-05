@@ -1,8 +1,8 @@
-# Docker file to couple frontend, backend, MySQL database,
+# Docker file to couple frontend, backend,
 # nGinx reverse proxy, and ACME LetsEncrypt instances into one.
 
-# Replace the aista.com parts with your own domain
-# Then create two DNS A records pointing to the IP address of
+# Replace the ainiro.io parts with your own domain,
+# then create two DNS A records pointing to the IP address of
 # your server. Content of DNS records should be 'magic-api' and 'magic'.
 
 version: "2"
@@ -44,49 +44,39 @@ services:
       - proxy
     restart: unless-stopped
 
-  # Our MySQL database
-  db:
-    image: mysql
-    container_name: db
-    environment:
-      MYSQL_ROOT_PASSWORD: ThisIsNotAGoodPassword
-    volumes:
-      - database:/var/lib/mysql
-    networks:
-      - proxy
-    restart: unless-stopped
-
   # Our Magic backend
   backend:
-    image: aistamagic/magic-backend:latest
+    image: servergardens/magic-backend:latest
     container_name: backend
     depends_on:
-      - db
       - acme-companion
       - nginx-proxy
     volumes:
-      - magic_files:/magic/files
+      - magic_etc_files:/magic/files/etc
+      - magic_config_files:/magic/files/config
+      - magic_data_files:/magic/files/data
+      - magic_modules_files:/magic/files/modules
     environment:
       # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
-      - VIRTUAL_HOST=magic-api.aista.com
-      - LETSENCRYPT_HOST=magic-api.aista.com
-      - LETSENCRYPT_EMAIL=th@aista.com
+      - VIRTUAL_HOST=magic-api.ainiro.io
+      - LETSENCRYPT_HOST=magic-api.ainiro.io
+      - LETSENCRYPT_EMAIL=thomas@ainiro.io
     networks:
       - proxy
     restart: unless-stopped
 
   # Our Magic frontend (dashboard)
   frontend:
-    image: aistamagic/magic-frontend:latest
+    image: servergardens/magic-frontend:latest
     container_name: frontend
     depends_on:
       - backend
     environment:
 
       # REPLACE THESE NEXT 3 PARTS WITH YOUR OWN DOMAIN/EMAIL
-      - VIRTUAL_HOST=magic.aista.com
-      - LETSENCRYPT_HOST=magic.aista.com
-      - LETSENCRYPT_EMAIL=th@aista.com
+      - VIRTUAL_HOST=magic.ainiro.io
+      - LETSENCRYPT_HOST=magic.ainiro.io
+      - LETSENCRYPT_EMAIL=thomas@ainiro.io
     networks:
       - proxy
     restart: unless-stopped
@@ -97,8 +87,10 @@ volumes:
   html:
   certs:
   acme:
-  database:
-  magic_files:
+  magic_etc_files:
+  magic_config_files:
+  magic_data_files:
+  magic_modules_files:
 
 networks:
   proxy:

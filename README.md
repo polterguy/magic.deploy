@@ -1,4 +1,3 @@
-
 # magic.deploy
 
 This guide helps you deploy Magic unto a VPS or a private server. The guide has been tested with
@@ -12,7 +11,7 @@ these would resemble the following.
 
 We suggest you don't buy the cheapest VPS droplet from DigitalOcean, but chose at least the one
 that will cost you $12 per month. Their cheapest droplet simply doesn't have enough memory to
-run Magic optimally. 2GB of memory should be enought to host Magic, MySQL, and the frontend
+run Magic optimally. 2GB of memory should be enought to host the backend and the frontend
 dashboard.
 
 ## Installing Magic
@@ -41,12 +40,7 @@ command and then run the above command again afterwards.
 apt install git
 ```
 
-When you have successfully cloned this repository, change into the `magic.deploy` folder
-using the following command.
-
-```
-cd magic.deploy
-```
+When you have successfully cloned this repository, you need to start docker-compose.
 
 The `docker-compose.yml` file needs to be manually edited to provide your
 email address, frontend domain, and backend domain, before you execute the docker-compose command.
@@ -59,15 +53,15 @@ nano docker-compose.yml
 And then look through the file for the following YAML nodes.
 
 ```yaml
-- VIRTUAL_HOST=magic-api.aista.com
-- LETSENCRYPT_HOST=magic-api.aista.com
-- LETSENCRYPT_EMAIL=th@aista.com
+- VIRTUAL_HOST=magic-api.ainiro.io
+- LETSENCRYPT_HOST=magic-api.ainiro.io
+- LETSENCRYPT_EMAIL=thomas@ainiro.io
 
 ...
 
-- VIRTUAL_HOST=magic.aista.com
-- LETSENCRYPT_HOST=magic.aista.com
-- LETSENCRYPT_EMAIL=th@aista.com
+- VIRTUAL_HOST=magic.ainiro.io
+- LETSENCRYPT_HOST=magic.ainiro.io
+- LETSENCRYPT_EMAIL=thomas@ainiro.io
 ```
 
 In total there are _6 entries_ you need to change, and the email address needs to be a valid email
@@ -98,23 +92,22 @@ docker-compose up -d
 
 ## Internals
 
-The above `docker-compose up -d` command will start 5 docker containers.
+The above `docker-compose up -d` command will start 4 docker containers.
 
 * `proxy` - The nGinx proxy that internally routes requests to either your backend or your frontend
 * `acme` - The container responsible for retrieving and renewing LetsEncrypt SSL certificates for you
-* `db` - Your MySQL database, used to create the _"magic"_ database that Magic internally depends upon
 * `backend` - The main Magic backend container
 * `frontend` - The main Magic dashboard frontend container
 
 In addition to the above containers, docker will also create several volumes for you. These volumes
-are necessary to persist changes to the file system for your containers, such that if your containers
+are required to persist changes to the file system for your containers, such that if your containers
 are stopped for some reasons, and/or you update Magic later, you will keep your changes. The most
 important volumes that Magic itself relies upon are as follows.
 
-* __database__ - Where MySQL store its database files
-* __etc_magic_folder__ - Where Magic stores its _"etc"_ files
-* __modules_magic_folder__ - Where Magic stores its _"modules"_ files
-* __config_magic_folder__ - Where Magic stores its _"appsettings.json"_ file
+* __magic_etc_files__ - Where Magic stores its _"etc"_ files
+* __magic_modules_files__ - Where Magic stores its _"modules"_ files
+* __magic_config_files__ - Where Magic stores its _"appsettings.json"_ file
+* __magic_data_files__ - Where Magic stores its SQLite database files
 
 The rest of the volumes are documented in either of the following two container projects that Magic's
 internal deployment depends upon.
@@ -138,8 +131,7 @@ you created your DNS records as illustrated above, your API backend URL would be
 https://magic-api.yourdomain.com
 ```
 
-To configure Magic login with _"root/root"_ and choose _mysql_ as your database type. Do _not_ change
-any parts of the connection string unless you know what you're doing. Then provide Magic with a root
+To configure Magic login with _"root/root"_. Then provide Magic with a root
 password, and follow the wizard to the end. This process is similar to the process you follow as you
 configure Magic locally on your development machine.
 
@@ -164,11 +156,11 @@ pull the Magic images from docker hub, and restart your containers using the fol
 
 ```
 docker-compose down
-docker pull aistamagic/magic-frontend
-docker pull aistamagic/magic-backend
+docker pull servergardens/magic-frontend
+docker pull servergardens/magic-backend
 docker-compose up -d
 ```
 
 ## Copyright and maintenance
 
-The projects is copyright of Aista, Ltd 2021 - 2023, and professionally maintained by [AINIRO your friendly ChatGPT website chatbot vendor](https://ainiro.io).
+The projects is copyright Thomas Hansen 2023 - 2024, and professionally maintained by [AINIRO.IO](https://ainiro.io).
